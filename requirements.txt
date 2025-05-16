@@ -1,0 +1,12 @@
+psutil
+requests
+playsound==1.2.2
+typing
+pyautogui
+pywhatkit
+win10toast
+winotify
+inf_STT
+selenium
+webdriver_manager
+gTTS
