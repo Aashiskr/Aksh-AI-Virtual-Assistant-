@@ -1,2 +1,5 @@
 09:00PM = Sir this is Your study time
 03:47PM = Sir this is Your sleep time
+12:00PM = Sir this is Your sleep time
+11:57PM = Sir this is Your study time
+11:58AM = Sir this is Your study time

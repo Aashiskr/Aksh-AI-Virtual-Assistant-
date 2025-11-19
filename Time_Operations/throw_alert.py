@@ -6,7 +6,7 @@ from TextToSpeech.Fast_DF_TTS import speak
 import threading
 from Time_Operations.brain import input_manage
 from os import getcwd
-file_path = r'C:\Users\Ashish Kumar\OneDrive\Desktop\Aksh\schedule.txt'
+file_path = r'schedule.txt'
 
 def load_schedule(file_path):
     schedule = {}
@@ -30,22 +30,22 @@ def check_schedule(file_path):
             if modified != last_modified:
                 last_modified = modified
                 schedule = load_schedule(file_path)
-            
+
             if current_time in schedule:
                 text = schedule[current_time]
                 t1 = threading.Thread(target=Alert, args=(text,))
-                t2 = threading.Thread(target=speak, args=(text,))        
+                t2 = threading.Thread(target=speak, args=(text,))
                 t1.start()
                 t2.start()
                 t1.join()
                 t2.join()
-        
+
         except Exception as e:
             print(f"Error: {e}")
-        
+
         time.sleep(60)
 
-Alam_path = r'C:\Users\Ashish Kumar\OneDrive\Desktop\Aksh\Alam_data.txt'
+Alam_path = r'Alam_data.txt'
 
 def load_AlamTime(file_path):
     schedule = {}
@@ -67,17 +67,17 @@ def check_Alam(Alam_path):
             if modified != last_modified:
                 last_modified = modified
                 schedule = load_AlamTime(Alam_path)
-            
+
             if current_time in schedule:
                 text = "This is Alarm"
                 t1 = threading.Thread(target=Alert, args=(text,))
-                t2 = threading.Thread(target=speak, args=(text,))        
+                t2 = threading.Thread(target=speak, args=(text,))
                 t1.start()
                 t2.start()
                 t1.join()
                 t2.join()
-        
+
         except Exception as e:
             print(f"Error: {e}")
-        
+
         time.sleep(30)

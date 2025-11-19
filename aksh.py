@@ -5,7 +5,7 @@ from Data.DLG_Data import online_dlg,please_online_first_dlg
 import random
 from co_brain import aksh
 from TextToSpeech.Fast_DF_TTS import speak
-import os 
+import os
 from Automation.Battery import check_plug,battery_Alert
 from Time_Operations.brain import input_manage
 from Time_Operations.throw_alert import check_schedule,check_Alam
@@ -13,8 +13,8 @@ from Time_Operations.throw_alert import check_schedule,check_Alam
 rand_offline_dlg = random.choice(please_online_first_dlg)
 rand_online_dlg = random.choice(online_dlg)
 
-file_path = r'C:\Users\Ashish Kumar\OneDrive\Desktop\Aksh\schedule.txt'
-Alam_path = r'C:\Users\Ashish Kumar\OneDrive\Desktop\Aksh\Alam_data.txt'
+file_path = r'schedule.txt'
+Alam_path = r'Alam_data.txt'
 
 def main():
     if is_Online():
@@ -41,6 +41,6 @@ def main():
         t7.join()
     else:
         Alert(rand_offline_dlg)
-        
+
 
 main()
