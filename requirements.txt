@@ -12,3 +12,6 @@ webdriver_manager
 gTTS
 yt_dlp
 pyautogui pyperclip
+SpeechRecognition
+pyaudio
+pygetwindow

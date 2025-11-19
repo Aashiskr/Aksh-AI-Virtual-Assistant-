@@ -18,19 +18,32 @@ import pywhatkit
 from Features.check_internet_speed import get_internet_speed
 from Automation.talking_games import talking_games
 from TextToSpeech import hindispeak
-from Features.video_downloader import download_current_video
+
 
 def close():
     gui.hotkey('alt', 'f4')
 
 def search_google(text):
-    pywhatkit.search(text)
+    pywhatkit.search(text) # type: ignore
 
 def kill_program():
     gui.hotkey('ctrl', 'C')
 
 def tab_close():
     gui.hotkey('ctrl','w')
+
+def minimize_window():
+    # Pressing twice ensures it minimizes even if the window is fully maximized
+    gui.hotkey('win', 'down')
+    gui.hotkey('win', 'down')
+
+def maximize_window():
+    gui.hotkey('win', 'up')
+
+
+def minimize_all():
+    # This minimizes EVERYTHING and shows the desktop
+    gui.hotkey('win', 'd')
 
 def search(text):
     gui.press("/")
@@ -66,6 +79,13 @@ def Auto_main_brain(text):
             kill_program()
         if "tab close" in text:
             tab_close()
+        if "minimize window" in text or "minimize this window" in text or "minimize current window" in text or "minimize" in text:
+            minimize_window()
+        if "minimize all" in text or "show desktop" in text:
+            minimize_all()
+        if "maximize window" in text or "maximize this window" in text or "maximize current window" in text or "maximize" in text:
+            maximize_window()
+
         if "play video" in text or "play video on youtube" in text:
             Fast_DF_TTS.speak("Which video do you want to play sir")
             clear_file()
@@ -144,35 +164,38 @@ def Auto_main_brain(text):
             Fast_DF_TTS.speak("Select the area and save where you want save it")
             time.sleep(1)
 
-        if "check battery percentage" in text or "check battery level" in text:
-            check_percentage()
+        if "battery" in text or "batery" in text or "charge" in text:
+            if "check percentage" in text or "percentage" in text or "charge kitna hai" in text or "check" in text or "kitna hai" in text:
+                check_percentage()
 
-        if "call someone" in text or "i want to call" in text:
-            Fast_DF_TTS.speak("Please tell me the name of the person you want to call")
-            time.sleep(2)
-            clear_file()
-            output_text = ""
-            while True:
-                with open("input.txt","r")as file:
-                    input_text = file.read().lower()
-                if input_text != output_text:
-                    output_text = input_text
-                    if output_text:
-                        call_the_person(output_text)
-                        break
-        if "message someone" in text or "i want to message" in text or "send message" in text:
-            Fast_DF_TTS.speak("Please tell me the name of the person you want to message")
-            time.sleep(2)
-            clear_file()
-            output_text = ""
-            while True:
-                with open("input.txt","r")as file:
-                    input_text = file.read().lower()
-                if input_text != output_text:
-                    output_text = input_text
-                    if output_text:
-                        message_the_person(output_text)
-                        break
+        if "call" in text or "phone" in text:
+            if "call someone" in text or "i want to call" in text or "make a call" in text or "call the person" in text or "call the contact" in text or "call kro" in text or "call karna hai" in text:
+                Fast_DF_TTS.speak("Please tell me the name of the person you want to call")
+                time.sleep(2)
+                clear_file()
+                output_text = ""
+                while True:
+                    with open("input.txt","r")as file:
+                        input_text = file.read().lower()
+                    if input_text != output_text:
+                        output_text = input_text
+                        if output_text:
+                            call_the_person(output_text)
+                            break
+        if "message" in text or "sandesh" in text or "send message" in text:
+            if "message someone" in text or "i want to message" in text or "send a message" in text or "message the person" in text or "message the contact" in text or "message kro" in text or "message karna hai" in text:
+                Fast_DF_TTS.speak("Please tell me the name of the person you want to message")
+                time.sleep(2)
+                clear_file()
+                output_text = ""
+                while True:
+                    with open("input.txt","r")as file:
+                        input_text = file.read().lower()
+                    if input_text != output_text:
+                        output_text = input_text
+                        if output_text:
+                            message_the_person(output_text)
+                            break
         if "search in google" in text or " google search" in text:
             text = text.replace("search in google", "").strip()
             text = text.replace("google search", "").strip()
@@ -183,39 +206,75 @@ def Auto_main_brain(text):
             text = text.replace("search", "").strip()
             search(text)
 
-        if "check internet speed" in text or "check internet speed" in text:
-            Fast_DF_TTS.speak("Checking internet speed")
-            time.sleep(2)
-            speed = get_internet_speed()
-            Fast_DF_TTS.speak(f"Your internet speed is {speed} Mbps")
+        if "internet" in text and "speed" in text:
+            if "check" in text or "test" in text or "measure" in text or "checking" in text or "testing" in text or "measuring" in text or "kya hai" in text:
+                Fast_DF_TTS.speak("Checking internet speed")
+                time.sleep(2)
+                speed = get_internet_speed()
+                Fast_DF_TTS.speak(f"Your internet speed is {speed} Mbps")
 
-        if "hello aksh" in text or "hi aksh" in text or "hey aksh" in text or "hello" in text or "hi" in text or "hey" in text:
+        if "hello aksh" in text or "hi aksh" in text or "hey aksh" in text:
             Fast_DF_TTS.speak("Hello sir, how can I help you?")
             time.sleep(1)
             clear_file()
 
-        if "shut down computer" in text or "shutdown this pc" in text or "turn off this device" in text:
-            Fast_DF_TTS.speak("Shutting down the computer")
-            time.sleep(2)
-            gui.hotkey('win', 'x')
-            time.sleep(1)
-            gui.press('u')
-            time.sleep(1)
-            Fast_DF_TTS.speak("Goodbye sir, see you next time")
-            time.sleep(1)
-            gui.press('u')
-            time.sleep(1)
-        if "download video" in text or "download this video" in text or "download current video" in text:
+        if "shutdown" in text or "shut down" in text or "band karo" in text:
+            if "shut down computer" in text or "shut down the computer" in text or "computer shutdown" in text or "computer band karo" in text or "computer" in text or "the computer" in text:
+                Fast_DF_TTS.speak("Shutting down the computer")
+                time.sleep(2)
+                gui.hotkey('win', 'x')
+                time.sleep(1)
+                gui.press('u')
+                time.sleep(1)
+                Fast_DF_TTS.speak("Goodbye sir, see you next time")
+                time.sleep(1)
+                gui.press('u')
+                time.sleep(1)
 
-            Fast_DF_TTS.speak("Getting the video link, please wait...")
+        if "meeting" in text or "meeting link" in text:
+            if "schedule" in text or "create" in text or "set up" in text or "set" in text or "new meeting" in text:
+                from Features.google_meet import create_meet_link, take_command
 
-            # Call the downloader function
-            video_title = download_current_video()
+                Fast_DF_TTS.speak("Ok sir i am scheduling a meeting for you.")
 
-            if video_title:
-                Fast_DF_TTS.speak(f"I have started downloading {video_title}. It will be saved in your Downloads folder.")
+                # Listen for the time (e.g., "10 AM" or "5 PM")
+                meeting_time = take_command()
+
+                if meeting_time:
+                    Fast_DF_TTS.speak("Okay, creating a new Google Meet link now...")
+
+                    # This opens the browser and creates the link
+                    new_link = create_meet_link(meeting_time)
+
+                    if new_link:
+                        Fast_DF_TTS.speak(f"Meeting scheduled for {meeting_time}. I have saved the link in your schedule file.")
+                    else:
+                        Fast_DF_TTS.speak("I opened the meeting, but I couldn't copy the link automatically.")
+
+        if "send" in text and "meeting link" in text:
+            # Example: "Send 9pm meeting link to Aditya"
+            from Features.whatsapp_meeting_sender import send_specific_meeting
+
+            # Pass the full query so the function can extract time and name
+            send_specific_meeting(text)
+        if "switch to" in text or "switch" in text or "change window to" in text:
+            from Automation.window_switcher import switch_to_app
+
+            # Remove the "switch to" part to get the app name
+            # Example: "Switch to Brave" -> "brave"
+            app_name = text.replace("switch to", "").strip()or text.replace("change window to", "").strip()or text.replace("switch", "").strip()
+
+            if app_name:
+                Fast_DF_TTS.speak(f"Switching to {app_name}...")
+                found = switch_to_app(app_name)
+
+                if not found:
+                    Fast_DF_TTS.speak(f"I couldn't find a window named {app_name} open.")
             else:
-                Fast_DF_TTS.speak("Sorry, I couldn't find a valid video link. Please make sure your browser is active.")
+                Fast_DF_TTS.speak("Which app should I switch to?")
+
+
+
 
         else:
             perform_browser_action(text)

@@ -42,7 +42,7 @@ def download_video(url, save_path):
     }
 
     try:
-        with yt_dlp.YoutubeDL(ydl_opts) as ydl:
+        with yt_dlp.YoutubeDL(ydl_opts) as ydl: # type: ignore
             info = ydl.extract_info(url, download=True)
             return info.get('title', 'video')
     except Exception as e:
