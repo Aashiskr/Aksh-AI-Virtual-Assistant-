@@ -10,3 +10,5 @@ inf_STT
 selenium
 webdriver_manager
 gTTS
+yt_dlp
+pyautogui pyperclip

@@ -18,6 +18,7 @@ import pywhatkit
 from Features.check_internet_speed import get_internet_speed
 from Automation.talking_games import talking_games
 from TextToSpeech import hindispeak
+from Features.video_downloader import download_current_video
 
 def close():
     gui.hotkey('alt', 'f4')
@@ -50,13 +51,13 @@ def Open_Brain(text):
         text = text.replace("open website", "").strip()
         text = text.replace(" ", "").strip()
         openweb(text)
-        
+
     else:
         text = text.replace("open app", "").strip()
         text = text.replace("open", "").strip()
         open_App(text)
-        
-def Auto_main_brain(text): 
+
+def Auto_main_brain(text):
         if text.startswith("open"):
             Open_Brain(text)
         if "close this" in text:
@@ -122,7 +123,7 @@ def Auto_main_brain(text):
                         Fast_DF_TTS.speak("Please say 'virtual games' or 'talking games'.")
 
 
-                
+
         if "any joke" in text or "tell me a joke" in text or "tell me joke" in text or "joke sunao" in text:
 
             selected_joke = random.choice(jokes)
@@ -177,11 +178,11 @@ def Auto_main_brain(text):
             text = text.replace("google search", "").strip()
             text = text.replace("search", "").strip()
             search_google(text)
-            
+
         if text.startswith("search"):
             text = text.replace("search", "").strip()
             search(text)
-        
+
         if "check internet speed" in text or "check internet speed" in text:
             Fast_DF_TTS.speak("Checking internet speed")
             time.sleep(2)
@@ -204,6 +205,17 @@ def Auto_main_brain(text):
             time.sleep(1)
             gui.press('u')
             time.sleep(1)
+        if "download video" in text or "download this video" in text or "download current video" in text:
+
+            Fast_DF_TTS.speak("Getting the video link, please wait...")
+
+            # Call the downloader function
+            video_title = download_current_video()
+
+            if video_title:
+                Fast_DF_TTS.speak(f"I have started downloading {video_title}. It will be saved in your Downloads folder.")
+            else:
+                Fast_DF_TTS.speak("Sorry, I couldn't find a valid video link. Please make sure your browser is active.")
 
         else:
             perform_browser_action(text)
