@@ -16,13 +16,13 @@ def move_cursor_left(pixels=100):
     # x=-pixels (Left jane ke liye minus)
     ui.moveRel(-pixels, 0, duration=0.2)
 
-def move_cursor_up(pixels=100):
-    # y=-pixels (Upar jane ke liye minus)
-    ui.moveRel(0, -pixels, duration=0.2)
+# def move_cursor_up(pixels=100):
+#     # y=-pixels (Upar jane ke liye minus)
+#     ui.moveRel(0, -pixels, duration=0.2)
 
-def move_cursor_down(pixels=100):
-    # y=pixels (Niche jane ke liye plus)
-    ui.moveRel(0, pixels, duration=0.2)
+# def move_cursor_down(pixels=100):
+#     # y=pixels (Niche jane ke liye plus)
+#     ui.moveRel(0, pixels, duration=0.2)
 
 def open_new_tab():
     gui.hotkey('ctrl', 't')
@@ -142,10 +142,10 @@ def perform_browser_action(text):
         move_cursor_right()
     elif "move left again" in text or "baaye jao firse" in text or "left jao firse" in text or "move left side again" in text or "left side jao firse" in text:
         move_cursor_left()
-    elif "move up" in text or "upar jao" in text or "move up side" in text or "up side jao" in text:
-        move_cursor_up()
-    elif "move down" in text or "neeche jao" in text or "move down side" in text or "down side jao" in text:
-        move_cursor_down()
+    # elif "move up" in text or "upar jao" in text or "move up side" in text or "up side jao" in text:
+    #     move_cursor_up()
+    # elif "move down" in text or "neeche jao" in text or "move down side" in text or "down side jao" in text:
+    #     move_cursor_down()
     if "private window" in text or "naya private window" in text:
         open_private_window()
     else:

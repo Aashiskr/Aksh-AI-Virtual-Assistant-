@@ -15,3 +15,4 @@ pyautogui pyperclip
 SpeechRecognition
 pyaudio
 pygetwindow
+opencv-python google-generativeai pillow

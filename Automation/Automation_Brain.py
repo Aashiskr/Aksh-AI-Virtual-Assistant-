@@ -18,7 +18,39 @@ import pywhatkit
 from Features.check_internet_speed import get_internet_speed
 from Automation.talking_games import talking_games
 from TextToSpeech import hindispeak
+import speech_recognition as sr
 
+# Make sure you have this function defined clearly
+def take_command():
+    # 1. Initialize the recognizer
+    r = sr.Recognizer()
+
+    with sr.Microphone() as source:
+        print("Listening...")
+
+        # 2. Adjust for background noise
+        r.pause_threshold = 1
+        r.energy_threshold = 300
+
+        # 3. Listen (with a timeout so it doesn't hang forever)
+        try:
+            audio = r.listen(source, timeout=4, phrase_time_limit=5)
+        except Exception as e:
+            print("Listening timed out. No audio detected.")
+            return "None"
+
+    try:
+        print("Recognizing...")
+        # 4. Convert Audio to Text
+        query = r.recognize_google(audio, language='en-in') # type: ignore
+        print(f"User said: {query}")
+
+    except Exception as e:
+        # If it couldn't understand the audio
+        print("Say that again please...")
+        return "None"
+
+    return query.lower()
 
 def close():
     gui.hotkey('alt', 'f4')
@@ -79,7 +111,7 @@ def Auto_main_brain(text):
             kill_program()
         if "tab close" in text:
             tab_close()
-        if "minimize window" in text or "minimize this window" in text or "minimize current window" in text or "minimize" in text:
+        if "minimize window" in text or "minimize this window" in text or "minimize current window" in text or "minimize" in text or "minimise" in text:
             minimize_window()
         if "minimize all" in text or "show desktop" in text:
             minimize_all()
@@ -272,6 +304,61 @@ def Auto_main_brain(text):
                     Fast_DF_TTS.speak(f"I couldn't find a window named {app_name} open.")
             else:
                 Fast_DF_TTS.speak("Which app should I switch to?")
+        # if "check what is in my hand" in text or "read this" in text or "read prescription" in text:
+        #     from Features.vision import check_what_is_in_hand
+
+        #     Fast_DF_TTS.speak("Okay, hold it steady in front of the camera. Capturing in 3 seconds.")
+
+        #     # Call the function
+        #     result = check_what_is_in_hand()
+
+        #     # Speak the result
+        #     print(f"AI Saw: {result}")
+        #     Fast_DF_TTS.speak(result)
+        # elif "save email" in text or "save mail" in text or "add email" in text:
+        #     from Features.email_sender import save_new_email, parse_email_from_voice
+
+        #     # 1. Ask for the Name
+        #     speak("Whose email do you want to save?")
+        #     name = take_command()
+
+        #     if name == "none":
+        #         speak("I didn't hear a name. Cancelling.")
+        #         continue # Skip to next loop iteration
+
+        #     # 2. Loop to get the correct Email
+        #     while True:
+        #         speak(f"Tell me the email address for {name}.")
+        #         speak("Say it like: john dot doe at gmail dot com")
+
+        #         raw_email = take_command()
+        #         if raw_email == "none": continue
+
+        #         # Convert voice to email format
+        #         email_address = parse_email_from_voice(raw_email)
+
+        #         # 3. Confirm with user
+        #         speak(f"I heard: {email_address}. Is this correct?")
+        #         confirm = take_command()
+
+        #         if "yes" in confirm or "correct" in confirm:
+        #             save_new_email(name, email_address)
+        #             speak(f"Saved {name}'s email successfully.")
+        #             break # Exit the loop
+        #         else:
+        #             speak("Okay, let's try again.")
+
+        # ... inside your while True loop ...
+
+        if "english" in text or "english talkk" in text:
+                if "text_to_learn" in text or "learn" in text or "learning mode" in text or "sikhna hai" in text or "chalo bt krte hain" in text or "bt krte hain" in text or "baat krna hai" in text:
+                    Fast_DF_TTS.speak("ok sir, give me few time i am starting english learning mode")
+                    from Features.english_tutor import start_english_learning_mode
+
+                    # Pass the 'speak' function so the tutor can talk
+                    # Note: Hum 'speak' function ko argument ki tarah bhej rahe hain
+                    start_english_learning_mode(Fast_DF_TTS.speak)
+
 
 
 
