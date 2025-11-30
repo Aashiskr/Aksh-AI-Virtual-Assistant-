@@ -4,7 +4,7 @@ import os
 
 # --- CONFIGURATION ---
 # Make sure your API Key is pasted here!
-API_KEY = "AIzaSyA7WTTrB0nObhDJimQYWEimo-q6M8wO6sU"
+API_KEY = "AIzaSyCraEKQBqttpLcnXkAuozBHPlR1SBXojcI"
 
 # AI Setup
 genai.configure(api_key=API_KEY)# type: ignore

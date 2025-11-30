@@ -19,6 +19,10 @@ from Features.check_internet_speed import get_internet_speed
 from Automation.talking_games import talking_games
 from TextToSpeech import hindispeak
 import speech_recognition as sr
+from Features.ocr_automation import get_data_from_image, parse_id_card, fill_form_with_ocr
+from Features import mood_ai
+from Features.timedj import play_time_aware_content
+import pywhatkit as pw
 
 # Make sure you have this function defined clearly
 def take_command():
@@ -89,6 +93,9 @@ def clear_file():
 
 
 
+import time
+import pywhatkit # Make sure this is imported at top
+
 def Open_Brain(text):
     if "open" in text and "website" in text:
         text = text.replace("open", "").strip()
@@ -98,9 +105,55 @@ def Open_Brain(text):
         openweb(text)
 
     else:
+        # 1. Clean the text to get app name
         text = text.replace("open app", "").strip()
         text = text.replace("open", "").strip()
+
+        # 2. Open the App normally
         open_App(text)
+
+        # 3. CHECK: Is it a "Work App"? (New Feature)
+        # ... inside your Open_Brain function ...
+
+        # 1. CHECK: Is it a "Work App"?
+        # (Removed 'and open in text' because 'text' is usually just the app name here)
+        if "word" in text or "powerpoint" in text or "ppt" in text or "excel" in text:
+
+            # Wait 4 seconds for the app to open visually
+            time.sleep(4)
+
+            # Ask the question
+            Fast_DF_TTS.speak("Since you are starting work, would you like some focus music?")
+
+            # 2. CLEAR PREVIOUS INPUT SO WE DON'T READ OLD COMMANDS
+            clear_file()
+
+            # 3. LISTEN FOR NEW ANSWER (The Loop)
+            response = ""
+            while True:
+                with open("input.txt", "r") as file:
+                    content = file.read().lower().strip()
+
+                # If we found new text, save it and STOP the loop
+                if content != "":
+                    response = content
+                    break # <--- CRITICAL: This stops the loop
+
+                # Small pause to save CPU
+                time.sleep(0.1)
+
+            # 4. CHECK RESPONSE
+            # We check 'response', not 'text1'
+            if "yes" in response or "sure" in response or "why not" in response:
+                Fast_DF_TTS.speak("Great! Playing Lofi beats for focus.")
+                pw.playonyt("Lofi hip hop radio - beats to relax/study to") # type: ignore
+
+            elif "no" in response:
+                Fast_DF_TTS.speak("Okay, happy working!")
+
+
+            # Ask the question
+
 
 def Auto_main_brain(text):
         if text.startswith("open"):
@@ -359,11 +412,35 @@ def Auto_main_brain(text):
                     # Note: Hum 'speak' function ko argument ki tarah bhej rahe hain
                     start_english_learning_mode(Fast_DF_TTS.speak)
 
+        if "fill" in text or "form" in text:
+            Fast_DF_TTS.speak("Scanning the image...")
 
+            # 1. Read Image
+            text = get_data_from_image("sample_id_card.jpg")
 
+            # 2. Extract Data
+            clean_data = parse_id_card(text)
+            Fast_DF_TTS.speak(f"I found data for {clean_data.get('name')}. Filling form now.")
+
+            # 3. Fill Form
+            fill_form_with_ocr(clean_data)
+
+        # Trigger words to activate the "Therapist Mode"
+        if "feeling" in text or "mood" in text or "i am" in text: # type: ignore
+
+            # Pass the sentence to the Naive Bayes Brain
+            response = mood_ai.detect_and_respond(text)
+
+            Fast_DF_TTS.speak(response)
+
+        if "play something" in text or "play music" in text: # type: ignore
+    # The extra condition checks if user didn't specify a song name
+
+            response = play_time_aware_content()
+            Fast_DF_TTS.speak(response)
 
 
         else:
             perform_browser_action(text)
-            perform_youtube_action(text)
+            perform_youtube_action(text) # type: ignore
 

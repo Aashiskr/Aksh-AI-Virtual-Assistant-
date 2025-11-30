@@ -1,18 +1,20 @@
-psutil
 requests
-playsound==1.2.2
-typing
-pyautogui
-pywhatkit
+edge-tts
 win10toast
 winotify
-inf_STT
+pyautogui
+pywhatkit
+playsound==1.2.2
+psutil
 selenium
-webdriver_manager
-gTTS
-yt_dlp
-pyautogui pyperclip
+webdriver-manager
+gtts
 SpeechRecognition
+inf_STT
+yt_dlp
+google-generativeai
 pyaudio
-pygetwindow
-opencv-python google-generativeai pillow
+pytesseract
+pillow
+opencv-python
+scikit-learn

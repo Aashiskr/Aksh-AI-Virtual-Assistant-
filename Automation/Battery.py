@@ -19,7 +19,7 @@ def battery_Alert():
             t2.join()
             # alert100()
             # speak("100% charged. Please unplug it.")
-        if percentage <= 20 and battery.not_plugged:
+        if percentage <= 20 and battery.power_plugged==False:
             t1 = threading.Thread(target=Alert,args=("Battery Low",))
             t2 = threading.Thread(target=speak,args=("Sir, Sorry to intrupt you but battery is low now",))
             t1.start()
@@ -28,7 +28,7 @@ def battery_Alert():
             t2.join()
             time.sleep(100)
 
-        if percentage <= 10 and battery.not_plugged:
+        if percentage <= 10 and battery.power_plugged==False:
             t1 = threading.Thread(target=Alert,args=("Battery is too Low",))
             t2 = threading.Thread(target=speak,args=("Sir, Sorry to intrupt you but battery is very low now 10 percent less",))
             t1.start()
@@ -36,7 +36,7 @@ def battery_Alert():
             t1.join()
             t2.join()
 
-        if percentage <= 5 and battery.not_plugged:
+        if percentage <= 5 and not battery.power_plugged:
             t1 = threading.Thread(target=Alert,args=("Battery is going to died",))
             t2 = threading.Thread(target=speak,args=("Sir, Sorry to intrupt you but your battery 5 charge your system now",))
             t1.start()
